@@ -6,7 +6,7 @@ import unittest
 from flask import current_app
 from flask_testing import TestCase
 
-from project.server import app
+from project.server import app, db_cred
 
 
 class TestDevelopmentConfig(TestCase):
@@ -18,7 +18,7 @@ class TestDevelopmentConfig(TestCase):
         self.assertTrue(app.config['DEBUG'] is True)
         self.assertFalse(current_app is None)
         self.assertTrue(
-            app.config['SQLALCHEMY_DATABASE_URI'] == 'postgresql://postgres:@localhost/flask_jwt_auth'
+            app.config['SQLALCHEMY_DATABASE_URI'] == f'postgresql://{db_cred.USER}:{db_cred.PASSWORD}@localhost/flask_jwt_auth'
         )
 
 
@@ -30,7 +30,7 @@ class TestTestingConfig(TestCase):
     def test_app_is_testing(self):
         self.assertTrue(app.config['DEBUG'])
         self.assertTrue(
-            app.config['SQLALCHEMY_DATABASE_URI'] == 'postgresql://postgres:@localhost/flask_jwt_auth_test'
+            app.config['SQLALCHEMY_DATABASE_URI'] == f'postgresql://{db_cred.USER}:{db_cred.PASSWORD}@localhost/flask_jwt_auth_test'
         )
 
 
